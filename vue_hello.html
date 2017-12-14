@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue起步</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="box">
+        <span>{{message}}</span>
+        <p v-bind:title="titleMsg">悬停查看title信息</p>
+        <p v-if="visiable">true和false控制是否显示</p>
+        <ul>
+            <li v-for="(item,index) in games">{{index}}--{{item}}</li>
+        </ul>
+        <button v-on:click="alertMsg">点击我</button>
+        <p>{{inputMessage}}</p>
+        <input type="text" v-model="inputMessage"/>
+        <ul id="comp">
+            <mytag></mytag>
+            <lhq></lhq>
+            <myComp v-for="item in lists" v-bind:todo="item" v-bind:key="item.id">
+
+            </myComp>
+        </ul>
+        <p v-once>once绑定的数据只会初始一次而不更新{{once}}</p>
+        <p v-html="addHtml">{{addHtml}}</p>
+        <p @click.prevent="alertMsg">阻止某些行为，比如preventDefault</p>
+
+    </div>
+    <p id="computed">{{comp}}---{{reversed}}</p>
+<script>
+    var testVue = new Vue({
+        el:'#box',
+        data:{
+            message:'hello',
+            titleMsg:'设置属性'+new Date(),
+            visiable:false,
+            games:['lol','dnf','cf'],
+            inputMessage:'',
+            once:'once',
+            addHtml:'<span style="color:orange;">插入HTML</span>'
+        },
+        methods:{
+            alertMsg:function(){
+                alert("on绑定");
+            }
+        }
+    });
+    Vue.component('lhq',{
+        template: '<p>我是一个全局的lhq组件</p>'
+    })
+    Vue.component('myComp',{props:['todo'],template:'<li>{{todo.name}}</li>'});
+    new Vue({
+        el:'#comp',
+        data:{
+            lists:[{id:'1',name:'java'},{id:'2',name:'c++'},{id:'3',name:'javascript'}]
+        },
+        components:{
+            'mytag':{template:'<p>abcdefg</p>'}
+        }
+    });
+    new Vue({
+        el:'#computed',
+        data:{
+            comp:'success'
+        },
+        computed:{
+//            计算属性用于定义一些复杂的计算，比methods更优化，会基于依赖进行缓存
+            reversed:function () {
+                return this.comp.split('').reverse().join('');
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

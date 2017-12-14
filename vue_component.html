@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue组件</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="box">
+        <test></test>
+        <test></test>
+    </div>
+    <div id="box2">
+        <test2></test2>
+    </div>
+    <script>
+        //注册,要写在根元素初始化实例之前
+        Vue.component('test',{
+            template:'<div>这是一个模板{{num}}</div>',
+            //data必须是函数
+            data:function () {
+                return {num :'message'}
+            }
+        });
+        new Vue({
+            el:'#box'
+        });
+        var myTemplate = {
+            template:'<div>局部组件模板</div>'
+        }
+        new Vue({
+            el:'#box2',
+            components:{
+                'test2':myTemplate
+            }
+        })
+    </script>
+</body>
+</html>

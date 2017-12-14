@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js</title>
+</head>
+<body>
+    <script>
+        function outer(){
+            var n = 100;
+            function inner(){
+                console.log(n);
+            }
+            return inner;
+        }
+        window.onload=function () {
+            var result = outer()();
+        }
+    </script>
+</body>
+</html>

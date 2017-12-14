@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue类绑定渲染</title>
+    <style type="text/css">
+        .fs{
+            font-size: 20px;
+        }
+        .back{
+            background: #00FF00;
+        }
+        .fontColor{
+            color: #ffffff;
+        }
+    </style>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="box" v-bind:style="styleObj" v-bind:class="[{back:isBack},fcolor]">
+        <span :class="{fs:flag}">测试class</span>
+        <span v-if="type=='A'">A</span>
+        <span v-else-if="type=='B'">B</span>
+        <span v-else-if="type=='C'">C</span>
+        <span v-else>D</span>
+        <p v-show="flag">v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+            相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+            一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。</p>
+    </div>
+    <div id="div_1" style="width: 200px;height: 200px;background: #0000FF;" v-on:click="what('outside!')">
+        <button v-on:click="show('hello!')">绑定click</button>
+        <div id="div_2" v-on:click.stop.prevent="what('what?')" style="width: 50px;height: 50px;background: #006600;"></div>
+        <a v-on:click.once="what('a!')" style="color:#ffffff">链接</a>
+    </div>
+    <div style="width: 100px;height: 300px; background: #F5d7e8;" id="div_3">
+        <p @click.enter="modal" @click.right="mouse">点击点击点击</p>
+        <input type="text" v-model.number="message">
+        <p>{{message}}</p>
+        <input type="checkbox" id="jack" value="jack" v-model="names"><label for="jack">jack</label>
+        <input type="checkbox" id="tom" value="tom" v-model="names"><label for="tom">tom</label>
+        <p>{{names}}</p>
+    </div>
+    <div id="mod">
+        <input type="text" v-model="message"/>
+        <p>{{message}}</p>
+    </div>
+    <script>
+        window.onload=new function () {
+//            if([]==false){
+//                alert('aaa');
+//            }
+//            if("10"<11){
+//                alert("bbb");
+//            }
+            console.log(parseFloat("10.00"));
+            console.log(Number("10.00"));
+            console.log(10.00-5.00);
+
+        }
+        new Vue({
+            el:'#box',
+            data:{
+                styleObj:{
+                    width:'500px',
+                    height:'500px'
+                },
+                back:'back',
+                isBack:true,
+                fcolor:'fontColor',
+                flag:true,
+                type:'B'
+            }
+        });
+        new Vue({
+            el:'#div_1',
+            data:{
+                word:'world',
+            },
+            methods:{
+                show:function(say){
+                    console.log(say+this.word);
+                },
+                what:function(say){
+                    console.log(say);
+                }
+            }
+        })
+        new Vue({
+            el:'#div_3',
+            data:{
+                message:'',
+                names:[]
+            },
+            methods:{
+                modal:function(){
+                    alert("回车被点击了");
+                },
+                mouse:function () {
+                    alert("鼠标右键点击");
+                }
+            }
+        })
+        new Vue({
+            el:'#mod',
+            data:{
+                message:'test'
+            },
+            methods:{
+                show:function (showTxt) {
+                    console.log(showTxt);
+                }
+            },
+            mounted:function () {
+                this.show(this.message);
+            }
+        })
+    </script>
+</body>
+
+</html>
